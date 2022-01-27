@@ -7,5 +7,10 @@
 
 int main()
 {
+    cv::Mat im;
+    im = cv::imread("resources/cards.jfif");
+
+    cv::imshow("test", im);
+    cv::waitKey(0);
     std::cout << "Close Project" << std::endl;
 }
