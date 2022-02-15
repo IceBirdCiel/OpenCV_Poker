@@ -9,9 +9,10 @@
 #include <opencv2/features2d.hpp>
 
 #include <math.h>
+#include "Card.h"
 
 class MatchCards {
 public:
-    MatchCards(){}
-    void Match(cv::Mat im, std::vector<cv::Mat> data);
+    MatchCards()= default;
+    void Match(cv::Mat im, std::vector<Card> data);
 };

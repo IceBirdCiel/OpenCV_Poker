@@ -18,7 +18,10 @@ void DataSetCards::CreateData(cv::Mat im){
             card = tmp;
             //AddMask(card);
             cv::resize(tmp,card,cv::Size(width*2, height*2));
-            data.push_back(card);
+
+            Card newCard(card, cardTypes[j], colors[i]);
+
+            data.push_back(newCard);
         }
     }
 }

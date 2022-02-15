@@ -5,6 +5,7 @@
 #pragma once
 
 #include <opencv2/opencv.hpp>
+#include "Card.h"
 
 class DataSetCards {
 public:
@@ -13,6 +14,13 @@ public:
     void AddMask(cv::Mat &im);
 
     cv::Mat im;
-    std::vector<cv::Mat> data;
+    std::vector<Card> data;
+
+    const std::vector<int> cardTypes = {
+        1, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2
+    };
+    const std::vector<std::string> colors = {
+        "Trefle", "Pique", "Carreau", "Coeur"
+    };
 };
 

@@ -2,6 +2,8 @@
 // Created by hung9 on 10/02/2022.
 //
 
+#include <numeric>
+
 #include "MatchCards.h"
 
 bool compare(cv::DMatch a, cv::DMatch b) { return a.distance < b.distance; }
@@ -13,7 +15,7 @@ float angle(cv::Point2f a, cv::Point2f b, cv::Point2f c){
     else return angle;
 }
 
-void MatchCards::Match(cv::Mat im, std::vector<cv::Mat> data){
+void MatchCards::Match(cv::Mat im, std::vector<Card> data){
     cv::Mat image;
     cv::cvtColor(im, image, cv::COLOR_BGR2GRAY);
 
@@ -34,8 +36,8 @@ void MatchCards::Match(cv::Mat im, std::vector<cv::Mat> data){
         std::vector<cv::KeyPoint> pointsCard;
         cv::Mat descriptionCard;
 
-        detectionCard->detect(data.at(i), pointsCard);
-        detectionCard->compute(data.at(i), pointsCard, descriptionCard);
+        detectionCard->detect(data.at(i).data, pointsCard);
+        detectionCard->compute(data.at(i).data, pointsCard, descriptionCard);
 
 
         matcher.knnMatch(descriptionCard, descriptionIm, match, 2);
@@ -62,14 +64,14 @@ void MatchCards::Match(cv::Mat im, std::vector<cv::Mat> data){
         std::vector<cv::Point2f> corners(4);
         std::vector<cv::Point2f> image_corners(4);
         corners[0] = cv::Point2f(0, 0);
-        corners[1] = cv::Point2f(0, data.at(i).rows);
-        corners[2] = cv::Point2f(data.at(i).cols, data.at(i).rows);
-        corners[3] = cv::Point2f( data.at(i).cols,0);
+        corners[1] = cv::Point2f(0, data.at(i).data.rows);
+        corners[2] = cv::Point2f(data.at(i).data.cols, data.at(i).data.rows);
+        corners[3] = cv::Point2f( data.at(i).data.cols,0);
 
         float angleUpRight;
         float angleBottomLeft;
 
-        if (!matTransform.empty()) {
+        if (!matTransform.empty()) {    // found a card
             cv::perspectiveTransform(corners, image_corners, matTransform);
             angleUpRight = angle(image_corners[0], image_corners[1], image_corners[2]);
             angleBottomLeft = angle(image_corners[2], image_corners[3], image_corners[0]);
@@ -79,7 +81,14 @@ void MatchCards::Match(cv::Mat im, std::vector<cv::Mat> data){
                 cv::line(im, image_corners[1], image_corners[2], cv::Scalar(0, 0, 255), 5);
                 cv::line(im, image_corners[2], image_corners[3], cv::Scalar(0, 0, 255), 5);
                 cv::line(im, image_corners[3], image_corners[0], cv::Scalar(0, 0, 255), 5);
+
+
+                auto cardPos = std::accumulate(image_corners.begin(), image_corners.end(), decltype(image_corners)::value_type(0));
+                cardPos /= 4;
+
+                cv::putText(im, data.at(i).ResolveCardName(), cardPos, cv::FONT_HERSHEY_DUPLEX, 1.0, cv::Scalar(255, 0, 0), 2);
             }
+
         }
 /*
         cv::Mat result;
@@ -91,9 +100,9 @@ void MatchCards::Match(cv::Mat im, std::vector<cv::Mat> data){
 */
         match.clear();
     }
-    //cv::Mat resizeIm(im.cols/4, im.rows/4, im.type());
-    //cv::resize(im, resizeIm, resizeIm.size());
-    cv::imshow("reconnaissance", im);
+    cv::Mat resizeIm(im.rows/2,im.cols/2, im.type());
+    cv::resize(im, resizeIm, resizeIm.size());
+    cv::imshow("reconnaissance", resizeIm);
     cv::waitKey(0);
 
 }
