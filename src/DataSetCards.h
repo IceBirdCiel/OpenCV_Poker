@@ -17,10 +17,10 @@ public:
     std::vector<Card> data;
 
     const std::vector<int> cardTypes = {
-        1, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2
+        14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2
     };
     const std::vector<std::string> colors = {
-        "Trefle", "Pique", "Carreau", "Coeur"
+        "Clubs", "Spades", "Diamonds", "Hearts"
     };
 };
 

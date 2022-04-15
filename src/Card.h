@@ -16,10 +16,10 @@ public:
     std::string ResolveCardName();
 
     const std::map<int, std::string> cardNames = {
-            {1, "As"},
             {11, "Valet"},
             {12, "Reine"},
             {13, "Roi"},
+            {14, "As"},
     };
 };
 
