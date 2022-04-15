@@ -11,7 +11,7 @@ namespace solB {
 
         DataSetCards set;
         cv::Mat im;
-        im = cv::imread("resources/cards.jfif");
+        im = cv::imread("resources/cards.jpg");
         set.CreateData(im);
 
         MatchCards scene;
