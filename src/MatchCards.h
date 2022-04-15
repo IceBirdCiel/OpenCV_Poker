@@ -10,9 +10,10 @@
 
 #include <math.h>
 #include "Card.h"
+#include "SolutionBResult.h"
 
 class MatchCards {
 public:
     MatchCards()= default;
-    void Match(cv::Mat im, std::vector<Card> data);
+    SolutionBResult Match(cv::Mat im, std::vector<Card> data);
 };

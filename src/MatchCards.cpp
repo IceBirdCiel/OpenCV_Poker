@@ -15,7 +15,10 @@ float angle(cv::Point2f a, cv::Point2f b, cv::Point2f c){
     else return angle;
 }
 
-void MatchCards::Match(cv::Mat im, std::vector<Card> data){
+SolutionBResult MatchCards::Match(cv::Mat im, std::vector<Card> data){
+    SolutionBResult results;
+    results.cardsInImage = std::vector<CardInImage>();
+
     cv::Mat image;
     cv::cvtColor(im, image, cv::COLOR_BGR2GRAY);
 
@@ -87,22 +90,17 @@ void MatchCards::Match(cv::Mat im, std::vector<Card> data){
                 cardPos /= 4;
 
                 cv::putText(im, data.at(i).ResolveCardName(), cardPos, cv::FONT_HERSHEY_DUPLEX, 1.0, cv::Scalar(255, 0, 0), 2);
+
+                CardInImage cardInImage(data.at(i), image_corners);
             }
 
         }
-/*
-        cv::Mat result;
-        cv::Mat resizeIm(im.cols/4, im.rows/4, im.type());
-        cv::drawMatches(data.at(i), pointsCard, image, pointsIm, matchShort, result);
-        cv::resize(result, resizeIm, resizeIm.size());
-        cv::imshow("reconnaissance", resizeIm);
-        cv::waitKey(0);
-*/
         match.clear();
     }
-    cv::Mat resizeIm(im.rows/2,im.cols/2, im.type());
+    /*cv::Mat resizeIm(im.rows/2,im.cols/2, im.type());
     cv::resize(im, resizeIm, resizeIm.size());
     cv::imshow("reconnaissance", resizeIm);
-    cv::waitKey(0);
+    cv::waitKey(0);*/
 
+    return results;
 }
