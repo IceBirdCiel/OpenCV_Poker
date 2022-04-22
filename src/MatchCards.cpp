@@ -92,6 +92,7 @@ SolutionBResult MatchCards::Match(cv::Mat im, std::vector<Card> data){
                 cv::putText(im, data.at(i).ResolveCardName(), cardPos, cv::FONT_HERSHEY_DUPLEX, 1.0, cv::Scalar(255, 0, 0), 2);
 
                 CardInImage cardInImage(data.at(i), image_corners);
+                results.cardsInImage.emplace_back(cardInImage);
             }
 
         }
@@ -102,5 +103,6 @@ SolutionBResult MatchCards::Match(cv::Mat im, std::vector<Card> data){
     cv::imshow("reconnaissance", resizeIm);
     cv::waitKey(0);*/
 
+    std::cout << "CARDS IN IMAGE" << results.cardsInImage.size() << std::endl;
     return results;
 }

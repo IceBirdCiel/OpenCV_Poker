@@ -7,11 +7,11 @@
 
 namespace solB {
     SolutionBResult compute(const cv::Mat &testImage) {
-        SolutionBResult result;
+        std::cout << "SOLUTION QUENTIN" << std::endl;
 
         DataSetCards set;
         cv::Mat im;
-        im = cv::imread("resources/cards.jpg");
+        im = cv::imread("resources/cards.jfif");
         set.CreateData(im);
 
         MatchCards scene;
